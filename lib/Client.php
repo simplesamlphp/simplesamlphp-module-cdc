@@ -21,7 +21,7 @@ class Client
     /**
      * The CDC server we send requests to.
      *
-     * @var Server|NULL
+     * @var Server|null
      */
     private $server;
 
@@ -43,7 +43,7 @@ class Client
     /**
      * Receive a CDC response.
      *
-     * @return array|NULL  The response, or NULL if no response is received.
+     * @return array|null  The response, or NULL if no response is received.
      */
     public function getResponse()
     {
@@ -57,6 +57,7 @@ class Client
      * @param string $returnTo  The URL we should return to afterwards.
      * @param string $op  The operation we are performing.
      * @param array $params  Additional parameters.
+     * @return void
      */
     public function sendRequest($returnTo, $op, array $params = [])
     {

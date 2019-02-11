@@ -50,6 +50,7 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
      * Redirect to page setting CDC.
      *
      * @param array &$state  The request state.
+     * @return void
      */
     public function process(&$state)
     {
