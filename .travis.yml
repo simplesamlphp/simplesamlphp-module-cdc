@@ -1,0 +1,51 @@
+sudo: required
+
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - hhvm
+
+env:
+  - SIMPLESAMLPHP_VERSION=1.15.*
+  - SIMPLESAMLPHP_VERSION=1.16.*
+  
+matrix:
+  include:
+    - php: 5.6
+      env: SIMPLESAMLPHP_VERSION=dev-master
+    - php: 7.0
+      env: SIMPLESAMLPHP_VERSION=dev-master
+    - php: 7.1
+      env: SIMPLESAMLPHP_VERSION=dev-master
+    - php: 7.2
+      env: SIMPLESAMLPHP_VERSION=dev-master
+  allow_failures:
+    - env: SIMPLESAMLPHP_VERSION=dev-master
+    - php: 7.2
+    - php: hhvm
+
+before_script:
+  - sudo apt-get install stunnel4 apache2
+  - openssl req -x509 -newkey rsa:4096 -nodes -keyout tests/files/webserver.key -out tests/files/webserver.crt -days 365 -subj '/CN=localhost'; cat tests/files/webserver.key tests/files/webserver.crt > tests/files/webserver.pem
+  - php -S localhost:8080 &
+  - export WEBPID=$!
+  - if [[ "$TRAVIS_PHP_VERSION" < "5.6" ]]; then sudo stunnel3 -p tests/files/webserver.pem -d 443 -r 8080; else sudo stunnel4 tests/files/stunnel.conf; fi
+  - mkdir /tmp/testdisk; sudo mount -t tmpfs -o size=100k tmpfs /tmp/testdisk; sudo chmod -R 777 /tmp/testdisk
+  - phpenv config-add tests/files/myphp.ini
+  - composer require "simplesamlphp/simplesamlphp:${SIMPLESAMLPHP_VERSION}" --no-update
+  - composer update --no-interaction
+
+script:
+  - bin/check-syntax.sh
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then php vendor/phpunit/phpunit/phpunit --configuration tools/phpunit; else php vendor/phpunit/phpunit/phpunit --configuration tools/phpunit --no-coverage; fi
+
+after_success:
+  - sudo umount /tmp/testdisk; rm -rf /tmp/testdisk
+  - kill -kill $WEBPID
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then bash <(curl -s https://codecov.io/bash) -s tools/phpunit; fi
