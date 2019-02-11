@@ -10,7 +10,6 @@ php:
   - 7.2
 
 env:
-  - SIMPLESAMLPHP_VERSION=1.15.*
   - SIMPLESAMLPHP_VERSION=1.16.*
   
 matrix:
