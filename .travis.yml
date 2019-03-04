@@ -23,6 +23,8 @@ matrix:
       env: SIMPLESAMLPHP_VERSION=dev-master
     - php: 7.2
       env: SIMPLESAMLPHP_VERSION=dev-master
+    - php: 7.3
+      env: SIMPLESAMLPHP_VERSION=dev-master
   allow_failures:
     - env: SIMPLESAMLPHP_VERSION=dev-master
     - php: 7.3
