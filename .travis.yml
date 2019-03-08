@@ -11,7 +11,7 @@ php:
   - 7.3
 
 env:
-  - SIMPLESAMLPHP_VERSION=1.16.*
+  - SIMPLESAMLPHP_VERSION=1.17.*
   
 matrix:
   include:
