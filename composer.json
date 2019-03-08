@@ -15,12 +15,29 @@
       "email": "jaime.perez@uninett.no"
     }
   ],
+  "config": {
+    "preferred-install": {
+      "simplesamlphp/simplesamlphp": "source",
+      "*": "dist"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "SimpleSAML\\modules\\cdc\\": "lib/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\SimpleSAML\\modules\\cdc\\TestFiles\\": "tests/files",
+      "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
+    }
+  },
   "require": {
     "simplesamlphp/composer-module-installer": ">=1.1.6"
   },
-    "require-dev": {
-        "simplesamlphp/simplesamlphp": "^1.17",
-        "phpunit/phpunit": "~4.8.36"
+  "require-dev": {
+    "simplesamlphp/simplesamlphp": "^1.17",
+    "phpunit/phpunit": "~4.8.36"
   },
   "support": {
     "issues": "https://github.com/simplesamlphp/simplesamlphp-module-cdc/issues",
