@@ -23,7 +23,7 @@ class Client
     /**
      * The CDC server we send requests to.
      *
-     * @var Server|null
+     * @var Server
      */
     private $server;
 
