@@ -2,6 +2,8 @@
 
 namespace SimpleSAML\Module\cdc;
 
+use Webmozart\Assert\Assert;
+
 /**
  * CDC server class.
  *
@@ -52,7 +54,7 @@ class Server
      */
     public function __construct($domain)
     {
-        assert(is_string($domain));
+        Assert::string($domain);
 
         $cdcConfig = \SimpleSAML\Configuration::getConfig('module_cdc.php');
         $config = $cdcConfig->getConfigItem($domain, null);
@@ -82,8 +84,8 @@ class Server
      */
     public function sendRequest(array $request)
     {
-        assert(isset($request['return']));
-        assert(isset($request['op']));
+        Assert::keyExists($request, 'return');
+        Assert::keyExists($request, 'op');
 
         $request['domain'] = $this->domain;
         $this->send($this->server, 'CDCRequest', $request);
@@ -258,7 +260,7 @@ class Server
      */
     private static function get($parameter)
     {
-        assert(is_string($parameter));
+        Assert::string($parameter);
 
         if (!isset($_REQUEST[$parameter])) {
             return null;
@@ -306,8 +308,8 @@ class Server
      */
     private function validate($parameter)
     {
-        assert(is_string($parameter));
-        assert(isset($_REQUEST[$parameter]));
+        Assert::string($parameter);
+        Assert::keyExists($_REQUEST, $parameter);
 
         $message = (string) $_REQUEST[$parameter];
 
@@ -333,8 +335,8 @@ class Server
      */
     private function send($to, $parameter, array $message)
     {
-        assert(is_string($to));
-        assert(is_string($parameter));
+        Assert::string($to);
+        Assert::string($parameter);
 
         $message['timestamp'] = time();
         $message = json_encode($message);
@@ -364,8 +366,7 @@ class Server
      */
     private function calcSignature($rawMessage)
     {
-        assert(is_string($rawMessage));
-
+        Assert::string($rawMessage);
         return sha1($this->key.$rawMessage.$this->key);
     }
 

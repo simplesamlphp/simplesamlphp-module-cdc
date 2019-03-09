@@ -2,12 +2,13 @@
 
 namespace SimpleSAML\module\cdc\Auth\Process;
 
+use Webmozart\Assert\Assert;
+
 /**
  * Filter for setting the SAML 2 common domain cookie.
  *
  * @package SimpleSAMLphp
  */
-
 class CDC extends \SimpleSAML\Auth\ProcessingFilter
 {
     /**
@@ -34,8 +35,8 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
      */
     public function __construct($config, $reserved)
     {
+        Assert::isArray($config);
         parent::__construct($config, $reserved);
-        assert(is_array($config));
 
         if (!isset($config['domain'])) {
             throw new \SimpleSAML\Error\Exception('Missing domain option in cdc:CDC filter.');
@@ -54,7 +55,7 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
      */
     public function process(&$state)
     {
-        assert(is_array($state));
+        Assert::isArray($state);
 
         if (!isset($state['Source']['entityid'])) {
             \SimpleSAML\Logger::warning('saml:CDC: Could not find IdP entityID.');

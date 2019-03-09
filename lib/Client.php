@@ -2,6 +2,8 @@
 
 namespace SimpleSAML\Module\cdc;
 
+use Webmozart\Assert\Assert;
+
 /**
  * CDC client class.
  *
@@ -33,7 +35,7 @@ class Client
      */
     public function __construct($domain)
     {
-        assert(is_string($domain));
+        Assert::string($domain);
 
         $this->domain = $domain;
         $this->server = new Server($domain);
@@ -61,8 +63,8 @@ class Client
      */
     public function sendRequest($returnTo, $op, array $params = [])
     {
-        assert(is_string($returnTo));
-        assert(is_string($op));
+        Assert::string($returnTo);
+        Assert::string($op);
 
         $params['op'] = $op;
         $params['return'] = $returnTo;
