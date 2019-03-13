@@ -23,12 +23,11 @@
   },
   "autoload": {
     "psr-4": {
-      "SimpleSAML\\modules\\cdc\\": "lib/"
+      "SimpleSAML\\Module\\cdc\\": "lib/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\SimpleSAML\\modules\\cdc\\TestFiles\\": "tests/files",
       "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
     }
   },
