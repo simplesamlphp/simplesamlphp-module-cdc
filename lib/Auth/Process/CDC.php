@@ -2,6 +2,10 @@
 
 namespace SimpleSAML\module\cdc\Auth\Process;
 
+use SimpleSAML\Auth;
+use SimpleSAML\Error;
+use SimpleSAML\Logger;
+use SimpleSAML\Module;
 use Webmozart\Assert\Assert;
 
 /**
@@ -9,7 +13,7 @@ use Webmozart\Assert\Assert;
  *
  * @package SimpleSAMLphp
  */
-class CDC extends \SimpleSAML\Auth\ProcessingFilter
+class CDC extends Auth\ProcessingFilter
 {
     /**
      * Our CDC domain.
@@ -33,13 +37,12 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
      * @param array $config  Configuration information about this filter.
      * @param mixed $reserved  For future use.
      */
-    public function __construct($config, $reserved)
+    public function __construct(array $config, $reserved)
     {
-        Assert::isArray($config);
         parent::__construct($config, $reserved);
 
         if (!isset($config['domain'])) {
-            throw new \SimpleSAML\Error\Exception('Missing domain option in cdc:CDC filter.');
+            throw new Error\Exception('Missing domain option in cdc:CDC filter.');
         }
         $this->domain = (string) $config['domain'];
 
@@ -53,19 +56,17 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
      * @param array &$state  The request state.
      * @return void
      */
-    public function process(&$state)
+    public function process(array &$state): void
     {
-        Assert::isArray($state);
-
         if (!isset($state['Source']['entityid'])) {
-            \SimpleSAML\Logger::warning('saml:CDC: Could not find IdP entityID.');
+            Logger::warning('saml:CDC: Could not find IdP entityID.');
             return;
         }
 
         // Save state and build request
-        $id = \SimpleSAML\Auth\State::saveState($state, 'cdc:resume');
+        $id = Auth\State::saveState($state, 'cdc:resume');
 
-        $returnTo = \SimpleSAML\Module::getModuleURL('cdc/resume.php', ['domain' => $this->domain]);
+        $returnTo = Module::getModuleURL('cdc/resume.php', ['domain' => $this->domain]);
 
         $params = [
             'id' => $id,

@@ -32,11 +32,12 @@
         }
     },
     "require": {
-        "simplesamlphp/composer-module-installer": ">=1.1.6"
+        "php": ">=7.2",
+        "simplesamlphp/composer-module-installer": ">=1.1.6",
+        "simplesamlphp/simplesamlphp": "dev-master"
     },
     "require-dev": {
-        "simplesamlphp/simplesamlphp": "^1.17",
-        "simplesamlphp/simplesamlphp-test-framework": "^0.0.10"
+        "simplesamlphp/simplesamlphp-test-framework": "^0.1.0"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-cdc/issues",
