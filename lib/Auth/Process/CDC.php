@@ -54,7 +54,6 @@ class CDC extends Auth\ProcessingFilter
      * Redirect to page setting CDC.
      *
      * @param array &$state  The request state.
-     * @return void
      */
     public function process(array &$state): void
     {

@@ -82,7 +82,6 @@ class Server
      * Send a request to this CDC server.
      *
      * @param array $request  The CDC request.
-     * @return void
      */
     public function sendRequest(array $request): void
     {
@@ -120,7 +119,6 @@ class Server
     /**
      * Parse and process a CDC request.
      * @throws \SimpleSAML\Error\BadRequest
-     * @return void
      */
     public static function processRequest(): void
     {
@@ -142,7 +140,6 @@ class Server
      *
      * @param array $request
      * @throws \SimpleSAML\Error\Exception
-     * @return void
      */
     private function handleRequest(array $request): void
     {
@@ -304,7 +301,6 @@ class Server
      *
      * @param string $parameter  The name of the query parameter.
      * @throws \SimpleSAML\Error\BadRequest
-     * @return void
      */
     private function validate(string $parameter): void
     {
@@ -330,7 +326,6 @@ class Server
      * @param string $to  The URL the message should be delivered to.
      * @param string $parameter  The query parameter the message should be sent in.
      * @param array $message  The CDC message.
-     * @return void
      */
     private function send(string $to, string $parameter, array $message): void
     {

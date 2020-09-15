@@ -55,7 +55,6 @@ class Client
      * @param string $returnTo  The URL we should return to afterwards.
      * @param string $op  The operation we are performing.
      * @param array $params  Additional parameters.
-     * @return void
      */
     public function sendRequest(string $returnTo, string $op, array $params = []): void
     {
