@@ -45,7 +45,7 @@ class Server
      *
      * If this is 0, the cookie will expire when the browser is closed.
      *
-     * @param int
+     * @var int
      */
     private $cookieLifetime;
 
