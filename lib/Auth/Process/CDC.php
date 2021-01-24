@@ -2,11 +2,11 @@
 
 namespace SimpleSAML\module\cdc\Auth\Process;
 
+use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Error;
 use SimpleSAML\Logger;
 use SimpleSAML\Module;
-use Webmozart\Assert\Assert;
 
 /**
  * Filter for setting the SAML 2 common domain cookie.
