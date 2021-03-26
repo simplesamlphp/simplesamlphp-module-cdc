@@ -228,7 +228,8 @@ class Server
             'httponly' => false,
         ];
 
-        Utils\HTTP::setCookie('_saml_idp', null, $params, false);
+        $httpUtils = new Utils\HTTP();
+        $httpUtils->setCookie('_saml_idp', null, $params, false);
         return 'ok';
     }
 
@@ -340,11 +341,12 @@ class Server
             'Signature' => $signature,
         ];
 
-        $url = Utils\HTTP::addURLParameters($to, $params);
+        $httpUtils = new Utils\HTTP();
+        $url = $httpUtils->addURLParameters($to, $params);
         if (strlen($url) < 2048) {
-            Utils\HTTP::redirectTrustedURL($url);
+            $httpUtils->redirectTrustedURL($url);
         } else {
-            Utils\HTTP::submitPOSTData($to, $params);
+            $httpUtils->submitPOSTData($to, $params);
         }
     }
 
@@ -422,7 +424,8 @@ class Server
             'httponly' => false,
         ];
 
-        Utils\HTTP::setCookie('_saml_idp', $cookie, $params, false);
+        $httpUtils = new Utils\HTTP();
+        $httpUtils->setCookie('_saml_idp', $cookie, $params, false);
 
         return '_saml_idp';
     }
