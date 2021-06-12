@@ -15,15 +15,14 @@ class Client
      *
      * @var string
      */
-    private $domain;
-
+    private string $domain;
 
     /**
      * The CDC server we send requests to.
      *
      * @var Server
      */
-    private $server;
+    private Server $server;
 
 
     /**

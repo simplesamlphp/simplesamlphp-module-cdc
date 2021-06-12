@@ -21,23 +21,21 @@ class Server
      *
      * @var string
      */
-    private $domain;
-
+    private string $domain;
 
     /**
      * The URL to the server.
      *
      * @var string
      */
-    private $server;
-
+    private string $server;
 
     /**
      * Our shared key.
      *
      * @var string
      */
-    private $key;
+    private string $key;
 
 
     /**
@@ -47,7 +45,7 @@ class Server
      *
      * @var int
      */
-    private $cookieLifetime;
+    private int $cookieLifetime;
 
 
     /**

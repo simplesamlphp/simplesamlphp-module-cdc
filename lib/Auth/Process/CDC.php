@@ -7,6 +7,7 @@ use SimpleSAML\Auth;
 use SimpleSAML\Error;
 use SimpleSAML\Logger;
 use SimpleSAML\Module;
+use SimpleSAML\Module\cdc\Client;
 
 /**
  * Filter for setting the SAML 2 common domain cookie.
@@ -20,15 +21,14 @@ class CDC extends Auth\ProcessingFilter
      *
      * @var string
      */
-    private $domain;
-
+    private string $domain;
 
     /**
      * Our CDC client.
      *
      * @var \SimpleSAML\Module\cdc\Client
      */
-    private $client;
+    private Client $client;
 
 
     /**
