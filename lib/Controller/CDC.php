@@ -51,11 +51,9 @@ class CDC
     /**
      * Server
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request The current request.
-     *
      * @return \SimpleSAML\HTTP\RunnableResponse
      */
-    public function server(Request $request): RunnableResponse
+    public function server(): RunnableResponse
     {
         return new RunnableResponse([Server::class, 'processRequest'], []);
     }
@@ -91,6 +89,6 @@ class CDC
             throw new Error\NoState();
         }
 
-        return new RunningResponse([Auth\ProcessingChain::class, 'resumeProcessing'], [$state]);
+        return new RunnableResponse([Auth\ProcessingChain::class, 'resumeProcessing'], [$state]);
     }
 }
