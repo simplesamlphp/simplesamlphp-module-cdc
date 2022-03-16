@@ -57,7 +57,7 @@ class Server
     public function __construct(string $domain)
     {
         $cdcConfig = Configuration::getConfig('module_cdc.php');
-        $config = $cdcConfig->getConfigItem($domain, null);
+        $config = $cdcConfig->getOptionalConfigItem($domain, null);
 
         if ($config === null) {
             throw new Error\Exception('Unknown CDC domain: ' . var_export($domain, true));
@@ -66,7 +66,7 @@ class Server
         $this->domain = $domain;
         $this->server = $config->getString('server');
         $this->key = $config->getString('key');
-        $this->cookieLifetime = $config->getInteger('cookie.lifetime', 0);
+        $this->cookieLifetime = $config->getOptionalInteger('cookie.lifetime', 0);
 
         if ($this->key === 'ExampleSharedKey') {
             throw new Error\Exception(
