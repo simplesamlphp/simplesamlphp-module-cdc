@@ -130,6 +130,22 @@ class CDCTest extends TestCase
      */
     public function testResumeUnknownDomain(): void
     {
+        Configuration::setPreLoadedConfig(
+            Configuration::loadFromArray(
+                [
+                    'example.org' => [
+                        'key' => 'SomethingCompletelyDifferent',
+                        'server' => 'https://my-cdc.example.org/simplesaml/module.php/cdc/server.php',
+                        'cookie.lifetime' => 0,
+                    ],
+                ],
+                '[ARRAY]',
+                'simplesaml'
+            ),
+            'module_cdc.php',
+            'simplesaml'
+        );
+
         $request = Request::create(
             '/resume',
             'GET',
