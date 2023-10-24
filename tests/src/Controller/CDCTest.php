@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace SimpleSAML\Test\Module\cdc\Controller;
 
 use PHPUnit\Framework\TestCase;
-//use SimpleSAML\Auth;
 use SimpleSAML\Configuration;
 use SimpleSAML\Error;
 use SimpleSAML\HTTP\RunnableResponse;
 use SimpleSAML\Module\cdc\Controller;
 use SimpleSAML\Session;
-//use SimpleSAML\Utils;
-//use SimpleSAML\XHTML\Template;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{Request, Response};
 
 /**
  * Set of tests for the controllers in the "cdc" module.
@@ -24,20 +20,20 @@ use Symfony\Component\HttpFoundation\Response;
 class CDCTest extends TestCase
 {
     /** @var \SimpleSAML\Configuration */
-    protected Configuration $config;
+    protected static Configuration $config;
 
     /** @var \SimpleSAML\Session */
-    protected Session $session;
+    protected static Session $session;
 
 
     /**
-     * Set up for each test.
+     * Set up before class
      */
-    protected function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        parent::setUp();
+        parent::setUpBeforeClass();
 
-        $this->config = Configuration::loadFromArray(
+        self::$config = Configuration::loadFromArray(
             [
                 'module.enable' => ['cdc' => true],
             ],
@@ -61,9 +57,9 @@ class CDCTest extends TestCase
             'simplesaml'
         );
 
-        $this->session = Session::getSessionFromRequest();
+        self::$session = Session::getSessionFromRequest();
 
-        Configuration::setPreLoadedConfig($this->config, 'config.php');
+        Configuration::setPreLoadedConfig(self::$config, 'config.php');
     }
 
 
@@ -97,7 +93,7 @@ class CDCTest extends TestCase
             ['domain' => 'example.org']
         );
 
-        $c = new Controller\CDC($this->config, $this->session);
+        $c = new Controller\CDC(self::$config, self::$session);
 
         $this->expectException(Error\Exception::class);
         $this->expectExceptionMessage("Key for CDC domain 'example.org' not changed from default.");
@@ -118,7 +114,7 @@ class CDCTest extends TestCase
             'GET',
         );
 
-        $c = new Controller\CDC($this->config, $this->session);
+        $c = new Controller\CDC(self::$config, self::$session);
 
         $this->expectException(Error\BadRequest::class);
         $this->expectExceptionMessage("BADREQUEST('%REASON%' => 'Missing domain to CDC resume handler.')");
@@ -140,7 +136,7 @@ class CDCTest extends TestCase
             ['domain' => 'non-existing.org'],
         );
 
-        $c = new Controller\CDC($this->config, $this->session);
+        $c = new Controller\CDC(self::$config, self::$session);
 
         $this->expectException(Error\Exception::class);
         $this->expectExceptionMessage("Unknown CDC domain: 'non-existing.org'");
@@ -162,13 +158,13 @@ class CDCTest extends TestCase
             ['domain' => 'example.org'],
         );
 
-        $c = new Controller\CDC($this->config, $this->session);
+        $c = new Controller\CDC(self::$config, self::$session);
 
-// @TODO: Inject Server & Client objects and test entire workflow
+        // @TODO: Inject Server & Client objects and test entire workflow
         $this->expectException(Error\BadRequest::class);
         $this->expectExceptionMessage("BADREQUEST('%REASON%' => 'Missing CDC response to CDC resume handler.')");
-//        $this->assertTrue($response->isSuccessful());
-//        $this->assertInstanceOf(RunnableResponse::class, $response);
+        // $this->assertTrue($response->isSuccessful());
+        // $this->assertInstanceOf(RunnableResponse::class, $response);
 
         $response = $c->resume($request);
     }
@@ -181,14 +177,9 @@ class CDCTest extends TestCase
      */
     public function testServer(): void
     {
-        $request = Request::create(
-            '/server',
-            'GET',
-        );
+        $c = new Controller\CDC(self::$config, self::$session);
 
-        $c = new Controller\CDC($this->config, $this->session);
-
-        $response = $c->server($request);
+        $response = $c->server();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertInstanceOf(RunnableResponse::class, $response);
