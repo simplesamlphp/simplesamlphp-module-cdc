@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Test\Module\cdc\Controller;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\Configuration;
 use SimpleSAML\Error;
@@ -14,9 +15,8 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 
 /**
  * Set of tests for the controllers in the "cdc" module.
- *
- * @covers \SimpleSAML\Module\cdc\Controller\CDC
  */
+#[CoversClass(Controller\CDC::class)]
 class CDCTest extends TestCase
 {
     /** @var \SimpleSAML\Configuration */
