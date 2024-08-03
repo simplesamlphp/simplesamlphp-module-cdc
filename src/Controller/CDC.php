@@ -68,9 +68,12 @@ class CDC
      */
     public function resume(Request $request): RunnableResponse
     {
-        $domain = $request->get('domain');
+        $domain = $request->request->get('domain', null);
         if ($domain === null) {
-            throw new Error\BadRequest('Missing domain to CDC resume handler.');
+            $domain = $request->query->get('domain', null);
+            if ($domain === null) {
+                throw new Error\BadRequest('Missing domain to CDC resume handler.');
+            }
         }
 
         $client = new Client($domain);
