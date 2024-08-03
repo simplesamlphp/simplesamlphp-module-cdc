@@ -72,7 +72,7 @@ class Server
 
         if ($this->key === 'ExampleSharedKey') {
             throw new Error\Exception(
-                'Key for CDC domain ' . var_export($domain, true) . ' not changed from default.'
+                'Key for CDC domain ' . var_export($domain, true) . ' not changed from default.',
             );
         }
     }

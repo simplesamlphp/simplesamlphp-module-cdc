@@ -38,7 +38,7 @@ class CDCTest extends TestCase
                 'module.enable' => ['cdc' => true],
             ],
             '[ARRAY]',
-            'simplesaml'
+            'simplesaml',
         );
 
         Configuration::setPreLoadedConfig(
@@ -51,10 +51,10 @@ class CDCTest extends TestCase
                     ],
                 ],
                 '[ARRAY]',
-                'simplesaml'
+                'simplesaml',
             ),
             'module_cdc.php',
-            'simplesaml'
+            'simplesaml',
         );
 
         self::$session = Session::getSessionFromRequest();
@@ -80,17 +80,17 @@ class CDCTest extends TestCase
                     ],
                 ],
                 '[ARRAY]',
-                'simplesaml'
+                'simplesaml',
             ),
             'module_cdc.php',
-            'simplesaml'
+            'simplesaml',
         );
 
 
         $request = Request::create(
             '/resume',
             'GET',
-            ['domain' => 'example.org']
+            ['domain' => 'example.org'],
         );
 
         $c = new Controller\CDC(self::$config, self::$session);
@@ -140,10 +140,10 @@ class CDCTest extends TestCase
                     ],
                 ],
                 '[ARRAY]',
-                'simplesaml'
+                'simplesaml',
             ),
             'module_cdc.php',
-            'simplesaml'
+            'simplesaml',
         );
 
         $request = Request::create(
