@@ -57,9 +57,10 @@ class CDCTest extends TestCase
             'simplesaml',
         );
 
-        self::$session = Session::getSessionFromRequest();
-
         Configuration::setPreLoadedConfig(self::$config, 'config.php');
+
+        $_SERVER['REQUEST_URI'] = '/resume';
+        self::$session = Session::getSessionFromRequest();
     }
 
 
@@ -85,7 +86,6 @@ class CDCTest extends TestCase
             'module_cdc.php',
             'simplesaml',
         );
-
 
         $request = Request::create(
             '/resume',

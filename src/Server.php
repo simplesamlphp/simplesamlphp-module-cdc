@@ -8,6 +8,7 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\Configuration;
 use SimpleSAML\Error;
 use SimpleSAML\Logger;
+use SimpleSAML\SAML2\Exception\ProtocolViolationException;
 use SimpleSAML\Utils;
 
 /**
@@ -264,6 +265,7 @@ class Server
             return null;
         }
         $message = (string) $_REQUEST[$parameter];
+        Assert::validBase64($message, ProtocolViolationException::class);
 
         $message = @base64_decode($message);
         if ($message === false) {
@@ -375,8 +377,10 @@ class Server
         }
 
         $ret = (string) $_COOKIE['_saml_idp'];
+
         $ret = explode(' ', $ret);
         foreach ($ret as &$idp) {
+            Assert::validBase64($idp, ProtocolViolationException::class);
             $idp = base64_decode($idp);
             if ($idp === false) {
                 // Not properly base64 encoded
