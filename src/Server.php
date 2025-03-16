@@ -387,6 +387,7 @@ class Server
                 Logger::warning('CDC - Invalid base64-encoding of CDC entry.');
                 return [];
             }
+            Assert::validURI($idp, ProtocolViolationException::class);
         }
 
         return $ret;
