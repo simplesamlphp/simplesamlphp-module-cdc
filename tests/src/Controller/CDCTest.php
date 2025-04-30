@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\{Request, Response};
  * Set of tests for the controllers in the "cdc" module.
  */
 #[CoversClass(Controller\CDC::class)]
-class CDCTest extends TestCase
+final class CDCTest extends TestCase
 {
     /** @var \SimpleSAML\Configuration */
     protected static Configuration $config;
@@ -182,7 +182,7 @@ class CDCTest extends TestCase
         // $this->assertTrue($response->isSuccessful());
         // $this->assertInstanceOf(RunnableResponse::class, $response);
 
-        $response = $c->resume($request);
+        $c->resume($request);
     }
 
 

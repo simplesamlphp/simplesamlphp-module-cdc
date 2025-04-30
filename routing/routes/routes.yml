@@ -1,9 +1,15 @@
+---
+
 cdc-resume:
-    path:       /resume
-    defaults:   { _controller: 'SimpleSAML\Module\cdc\Controller\CDC::resume' }
-    methods: [GET, POST]
+  path: /resume
+  defaults: {
+    _controller: 'SimpleSAML\Module\cdc\Controller\CDC::resume'
+  }
+  methods: [GET, POST]
 
 cdc-server:
-    path:       /server
-    defaults:   { _controller: 'SimpleSAML\Module\cdc\Controller\CDC::server' }
-    methods: [GET]
+  path: /server
+  defaults: {
+    _controller: 'SimpleSAML\Module\cdc\Controller\CDC::server'
+  }
+  methods: [GET]
