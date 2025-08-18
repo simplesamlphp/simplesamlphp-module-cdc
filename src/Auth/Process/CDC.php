@@ -35,7 +35,7 @@ class CDC extends Auth\ProcessingFilter
     /**
      * Initialize this filter.
      *
-     * @param array $config  Configuration information about this filter.
+     * @param array<mixed> $config  Configuration information about this filter.
      * @param mixed $reserved  For future use.
      */
     public function __construct(array $config, $reserved)
@@ -54,7 +54,7 @@ class CDC extends Auth\ProcessingFilter
     /**
      * Redirect to page setting CDC.
      *
-     * @param array &$state  The request state.
+     * @param array<mixed> &$state  The request state.
      */
     public function process(array &$state): void
     {
