@@ -11,6 +11,21 @@ use SimpleSAML\Logger;
 use SimpleSAML\SAML2\Exception\ProtocolViolationException;
 use SimpleSAML\Utils;
 
+use function array_search;
+use function base64_decode;
+use function base64_encode;
+use function explode;
+use function implode;
+use function intval;
+use function is_string;
+use function json_decode;
+use function json_encode;
+use function sha1;
+use function strlen;
+use function strval;
+use function time;
+use function var_export;
+
 /**
  * CDC server class.
  *
@@ -82,7 +97,7 @@ class Server
     /**
      * Send a request to this CDC server.
      *
-     * @param array $request  The CDC request.
+     * @param array<mixed> $request  The CDC request.
      */
     public function sendRequest(array $request): void
     {
@@ -97,7 +112,7 @@ class Server
     /**
      * Parse and validate response received from a CDC server.
      *
-     * @return array|null  The response, or NULL if no response is received.
+     * @return array<mixed>|null  The response, or NULL if no response is received.
      * @throws \SimpleSAML\Error\Exception
      */
     public function getResponse(): ?array
@@ -139,7 +154,7 @@ class Server
     /**
      * Handle a parsed CDC requst.
      *
-     * @param array $request
+     * @param array<mixed> $request
      * @throws \SimpleSAML\Error\Exception
      */
     private function handleRequest(array $request): void
@@ -147,14 +162,14 @@ class Server
         if (!isset($request['op'])) {
             throw new Error\BadRequest('Missing "op" in CDC request.');
         }
-        $op = (string) $request['op'];
+        $op = strval($request['op']);
 
         Logger::info('Received CDC request with "op": ' . var_export($op, true));
 
         if (!isset($request['return'])) {
             throw new Error\BadRequest('Missing "return" in CDC request.');
         }
-        $return = (string) $request['return'];
+        $ret = strval($request['return']);
 
         switch ($op) {
             case 'append':
@@ -178,18 +193,18 @@ class Server
 
         $response['op'] = $op;
         if (isset($request['id'])) {
-            $response['id'] = (string) $request['id'];
+            $response['id'] = strval($request['id']);
         }
         $response['domain'] = $this->domain;
 
-        $this->send($return, 'CDCResponse', $response);
+        $this->send($ret, 'CDCResponse', $response);
     }
 
 
     /**
      * Handle an append request.
      *
-     * @param array $request  The request.
+     * @param array<mixed> $request  The request.
      * @throws \SimpleSAML\Error\BadRequest
      * @return string The response.
      */
@@ -217,7 +232,7 @@ class Server
     /**
      * Handle a delete request.
      *
-     * @param array $request  The request.
+     * @param array<mixed> $request  The request.
      * @return string The response.
      */
     private function handleDelete(array $request): string
@@ -238,8 +253,8 @@ class Server
     /**
      * Handle a read request.
      *
-     * @param array $request  The request.
-     * @return array  The response.
+     * @param array<mixed> $request  The request.
+     * @return array<mixed>  The response.
      */
     private function handleRead(array $request): array
     {
@@ -257,7 +272,7 @@ class Server
      *
      * @param string $parameter  The name of the query parameter.
      * @throws \SimpleSAML\Error\BadRequest
-     * @return array|null  The response, or NULL if no response is received.
+     * @return array<mixed>|null  The response, or NULL if no response is received.
      */
     private static function get(string $parameter): ?array
     {
@@ -267,7 +282,7 @@ class Server
         $message = (string) $_REQUEST[$parameter];
         Assert::validBase64($message, ProtocolViolationException::class);
 
-        $message = @base64_decode($message);
+        $message = @base64_decode($message, true);
         if ($message === false) {
             throw new Error\BadRequest('Error base64-decoding CDC message.');
         }
@@ -280,7 +295,7 @@ class Server
         if (!isset($message['timestamp'])) {
             throw new Error\BadRequest('Missing timestamp in CDC message.');
         }
-        $timestamp = (int) $message['timestamp'];
+        $timestamp = intval($message['timestamp']);
 
         if ($timestamp + 60 < time()) {
             throw new Error\BadRequest('CDC signature has expired.');
@@ -328,7 +343,7 @@ class Server
      *
      * @param string $to  The URL the message should be delivered to.
      * @param string $parameter  The query parameter the message should be sent in.
-     * @param array $message  The CDC message.
+     * @param array<mixed> $message  The CDC message.
      */
     private function send(string $to, string $parameter, array $message): void
     {
@@ -368,7 +383,7 @@ class Server
     /**
      * Get the IdP entities saved in the common domain cookie.
      *
-     * @return array  List of IdP entities.
+     * @return string[]  List of IdP entities.
      */
     private function getCDC(): array
     {
@@ -376,12 +391,12 @@ class Server
             return [];
         }
 
-        $ret = (string) $_COOKIE['_saml_idp'];
+        $ret = strval($_COOKIE['_saml_idp']);
 
         $ret = explode(' ', $ret);
         foreach ($ret as &$idp) {
             Assert::validBase64($idp, ProtocolViolationException::class);
-            $idp = base64_decode($idp);
+            $idp = base64_decode($idp, true);
             if ($idp === false) {
                 // Not properly base64 encoded
                 Logger::warning('CDC - Invalid base64-encoding of CDC entry.');
@@ -397,7 +412,7 @@ class Server
     /**
      * Build a CDC cookie string.
      *
-     * @param array $list  The list of IdPs.
+     * @param string[] $list  The list of IdPs.
      * @return string  The CDC cookie value.
      */
     private function setCDC(array $list): string

@@ -88,10 +88,6 @@ class CDC
         }
 
         $state = Auth\State::loadState($response['id'], 'cdc:resume');
-        if (is_null($state)) {
-            throw new Error\NoState();
-        }
-
         return new RunnableResponse([Auth\ProcessingChain::class, 'resumeProcessing'], [$state]);
     }
 }

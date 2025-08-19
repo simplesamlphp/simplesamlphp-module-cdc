@@ -13,16 +13,9 @@ namespace SimpleSAML\Module\cdc;
 class Client
 {
     /**
-     * Our CDC domain.
-     *
-     * @var string
-     */
-    private string $domain;
-
-    /**
      * The CDC server we send requests to.
      *
-     * @var Server
+     * @var \SimpleSAML\Module\cdc\Server
      */
     private Server $server;
 
@@ -32,9 +25,9 @@ class Client
      *
      * @param string $domain  The domain we should query the server for.
      */
-    public function __construct(string $domain)
-    {
-        $this->domain = $domain;
+    public function __construct(
+        protected string $domain,
+    ) {
         $this->server = new Server($domain);
     }
 
@@ -42,7 +35,7 @@ class Client
     /**
      * Receive a CDC response.
      *
-     * @return array|null  The response, or NULL if no response is received.
+     * @return array<mixed>|null  The response, or NULL if no response is received.
      */
     public function getResponse(): ?array
     {
@@ -55,7 +48,7 @@ class Client
      *
      * @param string $returnTo  The URL we should return to afterwards.
      * @param string $op  The operation we are performing.
-     * @param array $params  Additional parameters.
+     * @param array<mixed> $params  Additional parameters.
      */
     public function sendRequest(string $returnTo, string $op, array $params = []): void
     {
