@@ -11,7 +11,7 @@ use SimpleSAML\Error;
 use SimpleSAML\HTTP\RunnableResponse;
 use SimpleSAML\Module\cdc\Controller;
 use SimpleSAML\Session;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Set of tests for the controllers in the "cdc" module.

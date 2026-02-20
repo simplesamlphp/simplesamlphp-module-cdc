@@ -55,7 +55,6 @@ class Server
      */
     private string $key;
 
-
     /**
      * The lifetime of our cookie, in seconds.
      *
