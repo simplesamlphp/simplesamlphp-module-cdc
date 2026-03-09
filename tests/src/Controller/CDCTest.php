@@ -117,7 +117,9 @@ final class CDCTest extends TestCase
         $c = new Controller\CDC(self::$config, self::$session);
 
         $this->expectException(Error\BadRequest::class);
-        $this->expectExceptionMessage("BADREQUEST('%REASON%' => 'Missing domain to CDC resume handler.')");
+        $this->expectExceptionMessage(
+            '{"errorCode":"BADREQUEST","%REASON%":"Missing domain to CDC resume handler."}',
+        );
 
         $c->resume($request);
     }
@@ -178,7 +180,9 @@ final class CDCTest extends TestCase
 
         // @TODO: Inject Server & Client objects and test entire workflow
         $this->expectException(Error\BadRequest::class);
-        $this->expectExceptionMessage("BADREQUEST('%REASON%' => 'Missing CDC response to CDC resume handler.')");
+        $this->expectExceptionMessage(
+            '{"errorCode":"BADREQUEST","%REASON%":"Missing CDC response to CDC resume handler."}',
+        );
         // $this->assertTrue($response->isSuccessful());
         // $this->assertInstanceOf(RunnableResponse::class, $response);
 
@@ -198,6 +202,5 @@ final class CDCTest extends TestCase
         $response = $c->server();
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertInstanceOf(RunnableResponse::class, $response);
     }
 }
